@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Series 65 Exam Prep</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;color:#1a1a1a;padding:1.5rem;min-height:100vh}
+.wrap{max-width:760px;margin:0 auto}
+h1{font-size:22px;font-weight:500;margin-bottom:4px}
+.sub{font-size:13px;color:#666;margin-bottom:1.5rem}
+.mode-bar{display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap}
+.mbtn{font-size:12px;padding:6px 14px;border-radius:8px;border:1px solid #d0d0cc;background:#fff;color:#555;cursor:pointer;transition:all .15s}
+.mbtn:hover{background:#f0f0ec}
+.mbtn.active{background:#E1F5EE;color:#0F6E56;border-color:#5DCAA5;font-weight:500}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.25rem}
+.tab{font-size:12px;padding:5px 11px;border-radius:8px;border:1px solid #d0d0cc;background:#fff;color:#555;cursor:pointer;transition:all .15s}
+.tab:hover{background:#f0f0ec}
+.tab.active{background:#E6F1FB;color:#185FA5;border-color:#85B7EB;font-weight:500}
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:1.25rem}
+@media(max-width:500px){.stats-row{grid-template-columns:repeat(3,1fr)}}
+.stat{background:#fff;border-radius:8px;padding:10px 12px;border:1px solid #e8e8e4}
+.slabel{font-size:11px;color:#999;margin-bottom:2px}
+.sval{font-size:20px;font-weight:500;color:#1a1a1a}
+.prog-bar{height:4px;background:#e0e0dc;border-radius:2px;margin-bottom:1.25rem;overflow:hidden}
+.prog-fill{height:100%;background:#1D9E75;border-radius:2px;transition:width .3s}
+.banner{display:none;padding:1rem 1.25rem;border-radius:12px;margin-bottom:1rem;font-size:14px}
+.banner.pass{background:#EAF3DE;border:1px solid #639922;color:#3B6D11}
+.banner.fail{background:#FCEBEB;border:1px solid #E24B4A;color:#A32D2D}
+.big{font-size:26px;font-weight:500;margin-bottom:4px}
+.q-card{background:#fff;border:1px solid #e8e8e4;border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.q-meta{display:flex;gap:8px;margin-bottom:10px;align-items:center;flex-wrap:wrap}
+.q-topic{font-size:11px;padding:3px 8px;border-radius:6px;background:#E6F1FB;color:#185FA5}
+.q-num{font-size:11px;color:#999;margin-left:auto}
+.bkbtn{font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid #d0d0cc;background:#fff;color:#666;cursor:pointer}
+.bkbtn.saved{background:#FAEEDA;color:#BA7517;border-color:#EF9F27}
+.q-text{font-size:15px;color:#1a1a1a;line-height:1.6;margin-bottom:1.25rem}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:1px solid #e8e8e4;border-radius:8px;cursor:pointer;background:#fff;font-size:14px;color:#1a1a1a;text-align:left;width:100%;transition:all .15s}
+.opt:hover:not(.dis){background:#f5f5f3;border-color:#c0c0bc}
+.opt.correct{background:#EAF3DE;border-color:#639922;color:#3B6D11}
+.opt.wrong{background:#FCEBEB;border-color:#E24B4A;color:#A32D2D}
+.opt.show-c{background:#EAF3DE;border-color:#639922;color:#3B6D11}
+.opt.dis{cursor:default}
+.ol{font-weight:500;min-width:18px}
+.expl{margin-top:1rem;padding:12px;background:#f5f5f3;border-radius:8px;font-size:13px;color:#555;line-height:1.6;display:none}
+.expl.show{display:block}
+.btn-row{display:flex;gap:10px;margin-top:1rem;flex-wrap:wrap}
+.pri{padding:9px 18px;border-radius:8px;border:1px solid #0F6E56;background:#1D9E75;color:#fff;font-size:13px;cursor:pointer;font-weight:500}
+.pri:hover{background:#0F6E56}
+.sec{padding:9px 18px;border-radius:8px;border:1px solid #d0d0cc;background:#fff;color:#1a1a1a;font-size:13px;cursor:pointer}
+.sec:hover{background:#f0f0ec}
+.fc-card{background:#fff;border:1px solid #e8e8e4;border-radius:12px;padding:2.5rem 1.5rem;margin-bottom:1rem;min-height:180px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;cursor:pointer;transition:border-color .15s}
+.fc-card:hover{border-color:#b0b0ac}
+.fc-label{font-size:11px;color:#999;margin-bottom:14px}
+.fc-front{font-size:18px;font-weight:500;color:#1a1a1a;line-height:1.5}
+.fc-back{font-size:14px;color:#444;line-height:1.7;display:none;max-width:520px}
+.fc-nav{display:flex;gap:10px;justify-content:center;margin-top:1rem}
+.fc-prog{font-size:12px;color:#999;text-align:center;margin-bottom:0.75rem}
+.weak-table{width:100%;border-collapse:collapse;font-size:13px}
+.weak-table th{text-align:left;font-weight:500;font-size:11px;color:#999;padding:6px 8px;border-bottom:1px solid #e8e8e4}
+.weak-table td{padding:9px 8px;border-bottom:1px solid #e8e8e4;color:#1a1a1a}
+.bar-wrap{width:100%;background:#e0e0dc;border-radius:2px;height:6px;overflow:hidden}
+.bar-fill{height:100%;border-radius:2px}
+.section-title{font-size:13px;font-weight:500;color:#555;margin-bottom:0.75rem;margin-top:0.25rem}
+.empty-msg{font-size:14px;color:#999;padding:1.5rem;text-align:center;background:#fff;border-radius:12px;border:1px solid #e8e8e4}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Series 65 Exam Prep</h1>
+<p class="sub">130 questions across all four exam sections &mdash; Investment Vehicles, Portfolio Management, Laws &amp; Regulations, Economics. Passing score: 72% (92/130).</p>
+
+<div class="mode-bar">
+  <button class="mbtn active" id="m-quiz" onclick="setMode('quiz')">Quiz mode</button>
+  <button class="mbtn" id="m-flash" onclick="setMode('flash')">Flashcards</button>
+  <button class="mbtn" id="m-weak" onclick="setMode('weak')">Weak areas</button>
+  <button class="mbtn" id="m-book" onclick="setMode('book')">Bookmarked</button>
+</div>
+
+<div id="quiz-ui">
+  <div class="tabs" id="tabs"></div>
+  <div class="stats-row">
+    <div class="stat"><div class="slabel">answered</div><div class="sval" id="s-ans">0</div></div>
+    <div class="stat"><div class="slabel">correct</div><div class="sval" id="s-cor" style="color:#3B6D11">0</div></div>
+    <div class="stat"><div class="slabel">score</div><div class="sval" id="s-pct">&mdash;</div></div>
+    <div class="stat"><div class="slabel">bookmarked</div><div class="sval" id="s-bk" style="color:#BA7517">0</div></div>
+    <div class="stat"><div class="slabel">remaining</div><div class="sval" id="s-rem">0</div></div>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="prog" style="width:0%"></div></div>
+  <div class="banner" id="banner"><div class="big" id="b-score"></div><div id="b-msg"></div></div>
+  <div id="q-cont"></div>
+  <div class="btn-row" id="btn-row" style="display:none">
+    <button class="pri" id="btn-next">Next question</button>
+    <button class="sec" id="btn-reset">Restart topic</button>
+  </div>
+</div>
+
+<div id="flash-ui" style="display:none">
+  <div class="tabs" id="fc-tabs"></div>
+  <p class="fc-prog" id="fc-count"></p>
+  <div class="fc-card" id="fc-card" onclick="flipCard()">
+    <div class="fc-label" id="fc-label">Click to reveal definition</div>
+    <div class="fc-front" id="fc-front"></div>
+    <div class="fc-back" id="fc-back"></div>
+  </div>
+  <div class="fc-nav">
+    <button class="sec" onclick="fcNav(-1)">&#8592; Previous</button>
+    <button class="pri" onclick="fcNav(1)">Next card &#8594;</button>
+  </div>
+</div>
+
+<div id="weak-ui" style="display:none">
+  <p class="sub" style="margin-bottom:1rem">Performance by topic. Aim for 72%+ in each section before exam day.</p>
+  <table class="weak-table">
+    <thead><tr><th>Topic</th><th>Score</th><th>Correct / Answered</th><th style="width:160px">Progress</th></tr></thead>
+    <tbody id="weak-body"></tbody>
+  </table>
+</div>
+
+<div id="book-ui" style="display:none">
+  <div id="book-content"></div>
+</div>
+</div>
+
+<script>
+const Q=[
+{t:"Economics",q:"Which Federal Reserve tool is most commonly used to implement monetary policy?",o:["Changing the discount rate","Open market operations","Adjusting reserve requirements","Issuing Treasury bonds"],a:1,e:"Open market operations — buying and selling U.S. Treasury securities — is the Fed's primary day-to-day tool for influencing money supply and interest rates."},
+{t:"Economics",q:"A rising Consumer Price Index most directly indicates:",o:["Deflation","Increasing purchasing power","Inflation — rising price levels","A strengthening currency"],a:2,e:"CPI measures average price changes paid by consumers. Rising CPI signals inflation — the general price level is increasing, eroding purchasing power."},
+{t:"Economics",q:"Which is considered a leading economic indicator?",o:["Unemployment rate","GDP growth","Building permits","Corporate profits"],a:2,e:"Building permits are leading — they reflect future construction activity. Unemployment and GDP are lagging indicators that confirm trends already in motion."},
+{t:"Economics",q:"When the yield curve inverts, it typically signals:",o:["Strong economic expansion","Potential recession","Decreasing inflation","Higher corporate earnings"],a:1,e:"An inverted yield curve (short rates > long rates) has historically preceded recessions. Investors expect future short-term rates to fall as growth slows."},
+{t:"Economics",q:"Which best describes the relationship between bond prices and interest rates?",o:["Same direction","Opposite directions","Unrelated","Only change at maturity"],a:1,e:"When rates rise, existing bonds with lower fixed rates become less attractive — prices fall to compensate. This inverse relationship is fundamental."},
+{t:"Economics",q:"Monetary policy that increases the money supply is referred to as:",o:["Contractionary","Expansionary","Fiscal","Regulatory"],a:1,e:"Expansionary monetary policy increases the money supply, typically by lowering interest rates or buying securities, to stimulate economic growth."},
+{t:"Economics",q:"The balance of payments includes which two main accounts?",o:["Capital account and trade account","Current account and capital/financial account","Revenue account and expense account","Import account and export account"],a:1,e:"The balance of payments consists of the current account (trade in goods/services, income) and the capital/financial account (investment flows, reserves)."},
+{t:"Economics",q:"If the U.S. dollar strengthens relative to foreign currencies, U.S. exports will likely:",o:["Increase because goods are cheaper abroad","Decrease because goods become more expensive abroad","Remain unchanged","Double in price"],a:1,e:"A stronger dollar makes U.S. goods more expensive for foreign buyers, reducing demand for exports. Conversely, imports become cheaper for U.S. consumers."},
+{t:"Investment Vehicles",q:"An investor purchases a callable bond at a premium. If called, they receive:",o:["Par value plus accrued interest","Call price plus accrued interest","Market value at time of call","Par value only"],a:1,e:"When a callable bond is called, the issuer pays the call price specified in the indenture plus accrued interest. The purchase premium is lost if the bond is called above par."},
+{t:"Investment Vehicles",q:"A mutual fund's NAV is calculated as:",o:["Total market cap","Assets minus liabilities divided by shares outstanding","Highest price in past year","Exchange trading price"],a:1,e:"NAV = (Total assets - Total liabilities) / Shares outstanding. Mutual funds price once daily at close using this formula, unlike ETFs which trade continuously."},
+{t:"Investment Vehicles",q:"REITs must distribute what minimum percentage of taxable income?",o:["51%","75%","90%","100%"],a:2,e:"REITs must distribute at least 90% of taxable income annually to maintain pass-through tax treatment and avoid corporate income tax."},
+{t:"Investment Vehicles",q:"A zero-coupon bond is characterized by:",o:["Monthly interest payments","Sold at par, redeemed at discount","Sold at discount, redeemed at par","Floating interest rate"],a:2,e:"Zero-coupon bonds pay no periodic interest. Issued at deep discount, redeemed at par — the difference is the investor's return, representing implied compound interest."},
+{t:"Investment Vehicles",q:"ETFs differ from mutual funds primarily because ETFs:",o:["Only available to institutions","Trade on exchanges throughout the day","Priced once daily at NAV","Never track indexes"],a:1,e:"ETFs trade on exchanges like stocks throughout the trading day at market prices. Mutual funds price once daily at NAV after market close."},
+{t:"Investment Vehicles",q:"Which is a characteristic of preferred stock?",o:["Voting rights in all elections","Fixed dividend paid before common stock dividends","Guaranteed principal repayment","Always converts to bonds"],a:1,e:"Preferred stock typically pays a fixed dividend that must be paid before any dividends are distributed to common stockholders. Preferred shareholders generally have limited voting rights."},
+{t:"Investment Vehicles",q:"A put option gives the holder the right to:",o:["Buy shares at the strike price","Sell shares at the strike price","Receive dividends","Vote at shareholder meetings"],a:1,e:"A put option grants the holder the right (not obligation) to sell shares at the strike price before expiration. Investors buy puts to hedge against price declines."},
+{t:"Investment Vehicles",q:"Which annuity provides payments that fluctuate based on investment performance?",o:["Fixed annuity","Variable annuity","Immediate annuity","Deferred fixed annuity"],a:1,e:"Variable annuities invest in sub-accounts similar to mutual funds. Payments vary based on investment performance. They carry investment risk unlike fixed annuities."},
+{t:"Investment Vehicles",q:"TIPS protect investors by:",o:["Offering the highest fixed yield","Adjusting principal based on CPI changes","Guaranteeing a 5% real return","Converting to stocks during inflation"],a:1,e:"TIPS adjust their principal value based on changes in the Consumer Price Index. As inflation rises, the principal increases, so interest payments also increase."},
+{t:"Investment Vehicles",q:"A convertible bond allows the holder to:",o:["Convert to preferred stock only","Exchange the bond for common shares at a set ratio","Sell back to issuer at par","Change the interest rate annually"],a:1,e:"Convertible bonds can be exchanged for a predetermined number of common shares. They offer bond security plus equity upside — typically at a lower yield than non-convertible bonds."},
+{t:"Investment Vehicles",q:"Which best describes a hedge fund?",o:["A registered mutual fund with hedging strategies","A private, lightly regulated fund typically for accredited investors","A government-guaranteed vehicle","An index fund with built-in insurance"],a:1,e:"Hedge funds are private investment vehicles limited to accredited investors. They face fewer regulations than mutual funds and can use leverage, short selling, and derivatives."},
+{t:"Investment Vehicles",q:"A revenue bond issued by a municipality is repaid by:",o:["General tax revenues","Revenue from a specific project","Federal government guarantee","Assessed property values"],a:1,e:"Revenue bonds are repaid from income generated by a specific project — a toll road, airport, or utility. They differ from general obligation bonds backed by taxing power."},
+{t:"Investment Vehicles",q:"Dollar duration measures:",o:["Percentage price change per 1% rate move","Actual dollar price change per 1% rate move","Coupon payment in dollars","Par value in current dollars"],a:1,e:"Dollar duration = Duration x Price x 0.01. It converts the percentage sensitivity into an actual dollar amount of price change for a 1% change in interest rates."},
+{t:"Investment Vehicles",q:"An ETN differs from an ETF in that an ETN:",o:["Is backed by physical assets","Is an unsecured debt obligation of the issuer","Always outperforms its index","Has no expense ratio"],a:1,e:"ETNs are unsecured debt instruments issued by a bank. Unlike ETFs which hold assets, ETN investors are exposed to the issuer's credit risk in addition to index performance risk."},
+{t:"Investment Vehicles",q:"Which is typically associated with the highest credit risk?",o:["U.S. Treasury bonds","AAA-rated corporate bonds","BB-rated corporate bonds","Agency bonds"],a:2,e:"BB-rated bonds are below investment grade (junk/high-yield). They carry substantially higher default risk than investment-grade bonds (BBB and above) or government securities."},
+{t:"Investment Vehicles",q:"A 12b-1 fee in a mutual fund pays for:",o:["Portfolio management fees","Distribution and marketing expenses","Custodian fees","Auditing costs"],a:1,e:"Rule 12b-1 fees cover distribution, marketing, and sometimes shareholder service costs. They are included in the fund's expense ratio and can range from 0.25% to 1.00% annually."},
+{t:"Investment Vehicles",q:"Which of the following is a money market instrument?",o:["30-year Treasury bond","Common stock","90-day Treasury bill","10-year corporate bond"],a:2,e:"Money market instruments are short-term debt securities with maturities of one year or less. Treasury bills, commercial paper, and certificates of deposit are common examples."},
+{t:"Investment Vehicles",q:"Systematic withdrawal plans from a mutual fund allow investors to:",o:["Add shares automatically each month","Receive fixed periodic payments from their fund balance","Switch funds without tax consequences","Reinvest all dividends automatically"],a:1,e:"Systematic withdrawal plans allow investors to receive regular fixed payments from their fund balance — useful for retirement income. Payments come from selling shares or distributing earnings."},
+{t:"Portfolio Management",q:"A client has a 30-year horizon, high risk tolerance, no income needs. Best allocation:",o:["80% bonds, 20% equities","50% equities, 50% money market","90% equities, 10% bonds","100% Treasury bills"],a:2,e:"Long horizon and high risk tolerance support maximum equity allocation. The 30-year timeframe allows riding out volatility. No income needs means growth focus is appropriate."},
+{t:"Portfolio Management",q:"Systematic risk is best described as:",o:["Risk eliminated through diversification","Market-wide risk affecting all securities","Single company default risk","Currency risk only"],a:1,e:"Systematic (market) risk affects all securities and cannot be diversified away. It includes macroeconomic factors like recessions, interest rate changes, and inflation."},
+{t:"Portfolio Management",q:"The Sharpe ratio measures:",o:["Total return vs benchmark","Risk-adjusted return per unit of total risk","Return relative to beta","Alpha generated by manager"],a:1,e:"Sharpe = (Return - Risk-free rate) / Standard deviation. Measures excess return per unit of total risk, enabling comparison across portfolios with different volatility profiles."},
+{t:"Portfolio Management",q:"Dollar-cost averaging involves:",o:["Investing lump sum when prices low","Investing equal dollar amounts at regular intervals","Investing only in dollar-denominated assets","Annual portfolio rebalancing"],a:1,e:"Dollar-cost averaging invests a fixed amount regularly regardless of price. More shares bought when prices are low, fewer when high — reduces average cost per share over time."},
+{t:"Portfolio Management",q:"Which would most likely increase a portfolio's duration?",o:["Shift from long to short bonds","Adding more equities","Increasing zero-coupon bond allocation","Adding floating rate notes"],a:2,e:"Zero-coupon bonds have the highest duration relative to maturity because all cash flows occur at maturity. Duration measures interest rate sensitivity — adding zeros increases it most."},
+{t:"Portfolio Management",q:"Beta measures a security's:",o:["Absolute price volatility","Price volatility relative to the market","Expected return","Dividend yield"],a:1,e:"Beta measures a security's sensitivity to market movements. Beta of 1.0 moves with the market; above 1.0 is more volatile; below 1.0 is less volatile. Negative beta moves opposite to market."},
+{t:"Portfolio Management",q:"The efficient frontier represents:",o:["The highest-return portfolio possible","Portfolios offering maximum return for a given risk level","Government-guaranteed returns","Index fund performance"],a:1,e:"The efficient frontier is the set of optimal portfolios offering the highest expected return for a given level of risk. Portfolios below the frontier are suboptimal."},
+{t:"Portfolio Management",q:"Correlation coefficient of -1.0 between two assets means:",o:["Assets move identically","Assets are unrelated","Assets move in perfectly opposite directions","One asset has no volatility"],a:2,e:"A correlation of -1.0 means perfect negative correlation — when one asset rises, the other falls by an equal percentage. Combining such assets can theoretically eliminate portfolio risk."},
+{t:"Portfolio Management",q:"Alpha in portfolio management measures:",o:["Market risk","Excess return above benchmark after adjusting for risk","Total portfolio volatility","Management fees charged"],a:1,e:"Alpha represents a portfolio manager's value-add — returns above or below what would be expected given the portfolio's beta. Positive alpha indicates outperformance on a risk-adjusted basis."},
+{t:"Portfolio Management",q:"Modern Portfolio Theory states that investors should:",o:["Maximize return regardless of risk","Focus only on individual security selection","Evaluate portfolios based on overall risk-return tradeoff","Avoid diversification to maximize returns"],a:2,e:"MPT holds that rational investors seek maximum return for a given risk level. Portfolio risk depends not just on individual security risk but on correlations between securities."},
+{t:"Portfolio Management",q:"Which is most appropriate for a client needing income with principal protection?",o:["Growth stocks","High-yield bonds","Treasury bonds or CDs","Emerging market equities"],a:2,e:"A client needing income with principal protection should prioritize capital preservation. Treasury bonds and CDs offer fixed income with minimal credit risk and government/FDIC backing."},
+{t:"Portfolio Management",q:"Rebalancing a portfolio means:",o:["Moving 100% to cash annually","Restoring target asset allocation percentages","Changing investment objectives","Selling all losing positions"],a:1,e:"Rebalancing restores the portfolio to its target allocation. When one asset class outperforms, it becomes overweighted — rebalancing sells some of that asset and buys underweighted ones."},
+{t:"Portfolio Management",q:"Standard deviation as a risk measure represents:",o:["Maximum possible loss","Average deviation of returns from the mean","Beta adjusted for time","Total return over a period"],a:1,e:"Standard deviation measures dispersion of returns around the average. Higher standard deviation = more volatile returns = more risk. It captures both upside and downside variability."},
+{t:"Portfolio Management",q:"The Treynor ratio differs from Sharpe in that it uses:",o:["Standard deviation in the denominator","Beta in the denominator","Total assets in the denominator","Alpha in the denominator"],a:1,e:"Treynor = (Return - Risk-free rate) / Beta. Uses systematic risk (beta) instead of total risk (standard deviation). Best for evaluating one component of a larger diversified portfolio."},
+{t:"Portfolio Management",q:"A client approaching retirement should generally:",o:["Increase equity allocation for growth","Shift toward conservative income-generating investments","Double down on high-yield bonds","Keep the same allocation as during accumulation"],a:1,e:"As clients approach retirement, the time horizon shortens and ability to recover from losses decreases. Shifting toward bonds, dividends, and capital preservation becomes appropriate."},
+{t:"Portfolio Management",q:"Tactical asset allocation differs from strategic allocation in that it:",o:["Never changes the portfolio","Makes short-term adjustments based on market conditions","Only applies to bond portfolios","Is mandated by regulation"],a:1,e:"Strategic asset allocation sets long-term target weights. Tactical allocation allows temporary deviations from those targets to exploit short-term market opportunities or reduce risk."},
+{t:"Portfolio Management",q:"Which of the following best describes unsystematic risk?",o:["Risk that affects all stocks simultaneously","Company-specific risk that can be reduced through diversification","Risk caused by Federal Reserve policy","Inflation risk"],a:1,e:"Unsystematic (idiosyncratic) risk is specific to a company or industry — a product recall, management change, or lawsuit. It can be largely eliminated by holding a diversified portfolio."},
+{t:"Portfolio Management",q:"The capital asset pricing model (CAPM) is used to:",o:["Calculate a bond's yield to maturity","Determine the expected return of an asset given its beta","Measure a fund's alpha","Calculate NAV of a mutual fund"],a:1,e:"CAPM: Expected Return = Risk-free rate + Beta x (Market return - Risk-free rate). It quantifies the relationship between systematic risk and expected return for an asset."},
+{t:"Laws & Regulations",q:"Under the Investment Advisers Act of 1940, an adviser with $110M AUM must register with:",o:["State securities regulator only","SEC only","Both SEC and state","Neither — voluntary"],a:1,e:"Advisers with $110M+ AUM generally must register with the SEC. Those under $100M typically register with state regulators. The $100-110M range involves a transition period."},
+{t:"Laws & Regulations",q:"An investment adviser's fiduciary duty requires:",o:["Achieving highest possible returns","Putting client interests first","Recommending only government securities","Providing guaranteed returns"],a:1,e:"Fiduciary duty means acting in the client's best interest at all times — full disclosure of conflicts, suitable advice, best execution, and not prioritizing the adviser's own interests."},
+{t:"Laws & Regulations",q:"Form ADV Part 2 must be delivered to prospective clients:",o:["Within 48 hours after signing","48 hours before signing, or at signing with 5-day rescission right","Only upon request","Annually only"],a:1,e:"The brochure rule: deliver Part 2 at least 48 hours before the advisory contract, OR at signing if the client has a 5-business-day right to terminate without penalty."},
+{t:"Laws & Regulations",q:"Which is NOT required to register as an investment adviser?",o:["Firm providing advice for compensation","Bank providing investment advisory services","Financial planner charging fees","Hedge fund with 15+ clients"],a:1,e:"Banks are explicitly excluded from the Investment Advisers Act. Other exclusions include broker-dealers whose advice is incidental and not separately compensated."},
+{t:"Laws & Regulations",q:"Churning refers to:",o:["Poor investment performance","Excessive trading to generate commissions","Failing to disclose conflicts","Recommending unsuitable investments"],a:1,e:"Churning is excessive trading primarily to generate commissions rather than benefit the client. It violates fiduciary duty and is prohibited under securities laws."},
+{t:"Laws & Regulations",q:"When an IAR moves to a new firm, they must:",o:["Re-take the Series 65","File for new state registration with new firm before conducting business","Notify only the previous employer","Wait 90 days"],a:1,e:"IARs must register with the new firm in each applicable state before conducting advisory business. The Series 65 qualification itself remains valid — no re-testing required."},
+{t:"Laws & Regulations",q:"The Securities Act of 1933 primarily regulates:",o:["Secondary market trading","Initial issuance of securities (primary market)","Investment adviser conduct","Broker-dealer operations"],a:1,e:"The 1933 Act governs the primary market — initial sale of securities to the public. It requires full disclosure via registration statements and prospectuses."},
+{t:"Laws & Regulations",q:"The Securities Exchange Act of 1934 primarily governs:",o:["Initial public offerings","Secondary market trading and broker-dealers","Mutual fund structure","Investment adviser registration"],a:1,e:"The 1934 Act governs secondary market trading, established the SEC, and regulates broker-dealers, exchanges, and reporting requirements for public companies."},
+{t:"Laws & Regulations",q:"Under the Uniform Securities Act, which is an exempt transaction?",o:["Sales to 100 retail investors","Isolated non-issuer transactions","Sales made via internet only","Transactions under $10,000"],a:1,e:"Isolated non-issuer transactions (e.g., an individual selling their own shares) are exempt from state registration. These are not part of a distribution."},
+{t:"Laws & Regulations",q:"An investment adviser must maintain books and records for a minimum of:",o:["2 years","5 years (first 2 easily accessible)","1 year","10 years"],a:1,e:"Under SEC rules, investment advisers must keep records for 5 years, with the first 2 years kept in an easily accessible place. Some records must be kept for the life of the firm."},
+{t:"Laws & Regulations",q:"Insider trading involves:",o:["Trading on publicly available information","Trading based on material non-public information","Selling short during a market decline","Buying IPO shares"],a:1,e:"Insider trading is buying or selling securities based on material, non-public information. It is illegal regardless of whether the trader is a company insider or received a tip."},
+{t:"Laws & Regulations",q:"A wrap fee program bundles:",o:["The adviser charges separately for each trade","All services under one comprehensive annual fee","Performance fees only","A 12b-1 fee"],a:1,e:"Wrap fee programs bundle advisory, brokerage, and administrative services under a single annual fee (typically 1-3% of assets). Must be disclosed in a special wrap fee brochure."},
+{t:"Laws & Regulations",q:"An accredited investor is generally defined as an individual with:",o:["Net worth over $500,000","Net worth over $1M (ex. primary residence) or income over $200K ($300K joint)","Assets over $5 million","Annual income over $100,000"],a:1,e:"SEC Rule 501: accredited investors have net worth exceeding $1M (excluding primary residence) OR annual income exceeding $200K individually ($300K jointly) for the past 2 years."},
+{t:"Laws & Regulations",q:"The Investment Company Act of 1940 primarily regulates:",o:["Individual investment advisers","Mutual funds and other pooled investment vehicles","Broker-dealer operations","Corporate bond issuance"],a:1,e:"The 1940 Act governs investment companies — mutual funds, closed-end funds, ETFs, and UITs. It requires registration, disclosure, and sets structural requirements to protect investors."},
+{t:"Laws & Regulations",q:"A Ponzi scheme is characterized by:",o:["Legitimate strategy with high returns","Paying early investors with money from new investors rather than profits","A fund that charges excessive fees","An adviser who recommends unsuitable securities"],a:1,e:"In a Ponzi scheme, returns to existing investors are paid using new investor capital rather than actual investment profits. The scheme collapses when insufficient new money flows in."},
+{t:"Laws & Regulations",q:"Under ERISA, a plan fiduciary must act:",o:["To maximize returns at any cost","Solely in the interest of plan participants and beneficiaries","Based on the employer's best interest","To minimize administrative costs only"],a:1,e:"ERISA requires fiduciaries to act solely in the interest of plan participants and beneficiaries. Fiduciaries can be personally liable for breaches of this duty."},
+{t:"Laws & Regulations",q:"The suitability standard requires advisers to:",o:["Beat the S&P 500 each year","Recommend investments appropriate for the client's specific situation","Disclose all fees regardless of amount","File a report with FINRA for each recommendation"],a:1,e:"Suitability requires recommendations be appropriate based on the client's objectives, risk tolerance, time horizon, and financial situation. Investment advisers are held to the higher fiduciary standard."},
+{t:"Laws & Regulations",q:"Front-running is best described as:",o:["Buying a stock before positive earnings","Trading ahead of a large client order to profit from the anticipated price move","Selling short without borrowing shares","Charging excessive commissions"],a:1,e:"Front-running occurs when a broker or adviser executes trades for their own account ahead of a large client order they know will move the market. It is market manipulation and breach of fiduciary duty."},
+{t:"Laws & Regulations",q:"State securities laws are commonly known as:",o:["Federal securities laws","Blue sky laws","Sunshine laws","Exchange regulations"],a:1,e:"State securities laws are called 'blue sky laws' — a term originating from concern that fraudulent investment schemes had no more basis than so many feet of blue sky."},
+{t:"Laws & Regulations",q:"Which of the following is an example of market manipulation?",o:["Buying undervalued stocks","Publishing research on a company","Spreading false rumors to move a stock price","Selling shares after a company announces poor earnings"],a:2,e:"Spreading false or misleading information to influence a stock's price is market manipulation. It is prohibited under the Securities Exchange Act of 1934 and is a form of securities fraud."},
+{t:"Laws & Regulations",q:"An investment adviser's written compliance policies and procedures must be reviewed:",o:["Every 5 years","Annually at minimum","Only when regulations change","Upon client request"],a:1,e:"SEC rules require registered investment advisers to review their compliance policies and procedures at least annually to ensure they are adequate and effective. The CCO oversees this process."},
+{t:"Laws & Regulations",q:"Which of the following describes a material fact that must be disclosed?",o:["The adviser's personal hobbies","Information that a reasonable investor would consider important in making an investment decision","The adviser's alma mater","General market commentary"],a:1,e:"A material fact is any information a reasonable investor would find important. Advisers must disclose material facts about investments, conflicts of interest, and their business practices."},
+{t:"Laws & Regulations",q:"The Investment Advisers Act of 1940 requires investment advisers to:",o:["Achieve positive returns each year","Register with SEC or state and fulfill ongoing disclosure obligations","Charge only flat fees","Hold a Series 7 license"],a:1,e:"The Act requires advisers meeting certain thresholds to register with the SEC or states, file Form ADV, deliver brochures to clients, and fulfill ongoing compliance and recordkeeping obligations."},
+];
+
+const FC=[
+  {topic:"Investment Vehicles",term:"Net Asset Value (NAV)",def:"(Total assets - Total liabilities) / Shares outstanding. The per-share value of a mutual fund, calculated once daily at market close."},
+  {topic:"Investment Vehicles",term:"Duration",def:"A measure of a bond's price sensitivity to interest rate changes. Higher duration = greater price impact. Zero-coupon bonds have the highest duration relative to maturity."},
+  {topic:"Investment Vehicles",term:"Callable bond",def:"A bond the issuer can redeem before maturity at a specified call price. Investors face reinvestment risk when rates fall — issuers call high-coupon bonds when rates drop."},
+  {topic:"Investment Vehicles",term:"Convertible bond",def:"A bond that can be exchanged for a predetermined number of common shares. Offers bond safety plus equity upside, typically at a lower yield than non-convertible bonds."},
+  {topic:"Investment Vehicles",term:"REIT",def:"Real Estate Investment Trust. Must distribute 90%+ of taxable income. Provides real estate exposure without direct property ownership. Traded like stocks."},
+  {topic:"Investment Vehicles",term:"12b-1 fee",def:"Annual fee charged by mutual funds for distribution and marketing. Ranges from 0.25% to 1.00%. Included in the expense ratio."},
+  {topic:"Investment Vehicles",term:"Variable annuity",def:"Insurance contract investing in sub-accounts similar to mutual funds. Payments vary based on investment performance. Carries investment risk unlike fixed annuities."},
+  {topic:"Investment Vehicles",term:"TIPS",def:"Treasury Inflation-Protected Securities. Principal adjusts with CPI changes. Provides protection against inflation — interest payments increase as principal grows with inflation."},
+  {topic:"Investment Vehicles",term:"ETN (Exchange-Traded Note)",def:"An unsecured debt obligation of the issuing bank. Unlike ETFs which hold assets, ETN investors face issuer credit risk in addition to index performance risk."},
+  {topic:"Investment Vehicles",term:"Money market instruments",def:"Short-term debt securities with maturities of one year or less. Examples: Treasury bills, commercial paper, certificates of deposit, banker's acceptances."},
+  {topic:"Investment Vehicles",term:"Revenue bond",def:"Municipal bond repaid from income generated by a specific project — a toll road, airport, or utility. Not backed by the issuer's general taxing power."},
+  {topic:"Investment Vehicles",term:"General obligation bond",def:"Municipal bond backed by the full faith, credit, and taxing power of the issuing municipality. Generally considered safer than revenue bonds."},
+  {topic:"Portfolio Management",term:"Sharpe ratio",def:"(Portfolio return - Risk-free rate) / Standard deviation. Measures excess return per unit of total risk. Higher = better risk-adjusted performance."},
+  {topic:"Portfolio Management",term:"Alpha",def:"Excess return above what is expected given portfolio beta. Positive alpha = manager outperformed on risk-adjusted basis. A measure of active management skill."},
+  {topic:"Portfolio Management",term:"Beta",def:"Measures a security's price volatility relative to the market. Beta 1.0 = moves with market. Above 1.0 = more volatile. Below 1.0 = less volatile."},
+  {topic:"Portfolio Management",term:"Efficient frontier",def:"The set of optimal portfolios offering maximum expected return for a given level of risk. Portfolios below the frontier are suboptimal — more risk for the same return."},
+  {topic:"Portfolio Management",term:"Systematic risk",def:"Market-wide risk that cannot be eliminated through diversification. Includes recessions, interest rate changes, inflation. Also called non-diversifiable or market risk."},
+  {topic:"Portfolio Management",term:"Treynor ratio",def:"(Return - Risk-free rate) / Beta. Like Sharpe but uses systematic risk (beta) instead of total risk. Best for evaluating one component of a larger diversified portfolio."},
+  {topic:"Portfolio Management",term:"Dollar-cost averaging",def:"Investing equal dollar amounts at regular intervals regardless of price. Buys more shares when prices are low, fewer when high — reduces average cost per share over time."},
+  {topic:"Portfolio Management",term:"Correlation coefficient",def:"Measures how two assets move relative to each other. Range: -1.0 (perfect negative) to +1.0 (perfect positive). Near zero = uncorrelated. Low correlations improve diversification."},
+  {topic:"Portfolio Management",term:"Standard deviation",def:"Measures dispersion of returns around the mean. Higher = more volatile = more risk. Used as the denominator in the Sharpe ratio. Captures both upside and downside variability."},
+  {topic:"Portfolio Management",term:"CAPM",def:"Capital Asset Pricing Model. Expected Return = Risk-free rate + Beta x (Market return - Risk-free rate). Quantifies the relationship between systematic risk and expected return."},
+  {topic:"Portfolio Management",term:"Modern Portfolio Theory (MPT)",def:"Theory that portfolio risk depends on correlations between securities, not just individual security risk. Rational investors seek maximum return for a given risk level."},
+  {topic:"Laws & Regulations",term:"Fiduciary duty",def:"Legal obligation to act in the client's best interest. Requires full disclosure of conflicts, suitable advice, and best execution. Investment advisers are held to this standard."},
+  {topic:"Laws & Regulations",term:"Form ADV",def:"Investment adviser registration form. Part 1 = organizational info filed with SEC/state. Part 2 = brochure describing services, fees, and conflicts delivered to clients."},
+  {topic:"Laws & Regulations",term:"Accredited investor",def:"Net worth over $1M (excluding primary residence) OR annual income over $200K individual / $300K joint for past 2 years. Can access unregistered securities offerings."},
+  {topic:"Laws & Regulations",term:"Blue sky laws",def:"State securities laws regulating the offer and sale of securities within a state. Operate alongside federal securities laws. Named for preventing fraudulent schemes."},
+  {topic:"Laws & Regulations",term:"Churning",def:"Excessive trading in a client account primarily to generate commissions rather than benefit the client. Violates fiduciary duty. Prohibited under securities laws."},
+  {topic:"Laws & Regulations",term:"Insider trading",def:"Buying or selling securities based on material, non-public information. Illegal regardless of whether the trader is a company insider or received a tip from one."},
+  {topic:"Laws & Regulations",term:"Wrap fee program",def:"Bundles advisory, brokerage, and administrative services under one annual fee (typically 1-3% of assets). Must be disclosed in a special wrap fee brochure."},
+  {topic:"Laws & Regulations",term:"ERISA",def:"Employee Retirement Income Security Act. Governs private sector retirement plans. Requires plan fiduciaries to act solely in participants' and beneficiaries' best interests."},
+  {topic:"Laws & Regulations",term:"Front-running",def:"Trading for one's own account ahead of a large client order to profit from the anticipated price impact. A form of market manipulation and breach of fiduciary duty."},
+  {topic:"Laws & Regulations",term:"Securities Act of 1933",def:"Governs the primary market — initial sale of securities to the public. Requires registration statements and prospectuses to ensure full and fair disclosure."},
+  {topic:"Laws & Regulations",term:"Securities Exchange Act of 1934",def:"Governs secondary market trading. Established the SEC. Regulates broker-dealers, exchanges, and ongoing reporting requirements for public companies."},
+  {topic:"Laws & Regulations",term:"Investment Company Act of 1940",def:"Governs investment companies — mutual funds, closed-end funds, ETFs, and UITs. Requires registration, disclosure, and sets structural requirements to protect investors."},
+];
+
+const TOPICS=['All','Economics','Investment Vehicles','Portfolio Management','Laws & Regulations'];
+let mode='quiz',topic='All',queue=[],cur=null,answered=0,correct=0,did_answer=false;
+let bookmarks=new Set(),topicStats={};
+let fcTopic='All',fcIdx=0,fcFlipped=false;
+TOPICS.slice(1).forEach(t=>{topicStats[t]={ans:0,cor:0}});
+
+function setMode(m){
+  mode=m;
+  ['quiz','flash','weak','book'].forEach(x=>{
+    document.getElementById(x+'-ui').style.display=x===m?'block':'none';
+    document.getElementById('m-'+x).classList.toggle('active',x===m);
+  });
+  if(m==='weak')renderWeak();
+  if(m==='flash')renderFlash();
+  if(m==='book')renderBook();
+}
+
+function getQueue(){
+  let qs=topic==='All'?[...Q]:Q.filter(q=>q.t===topic);
+  return qs.sort(()=>Math.random()-0.5);
+}
+
+function renderTabs(){
+  document.getElementById('tabs').innerHTML=TOPICS.map(t=>`<button class="tab${t===topic?' active':''}" onclick="setTopicQ('${t}')">${t}</button>`).join('');
+}
+
+function setTopicQ(t){topic=t;answered=0;correct=0;queue=getQueue();renderTabs();updateStats();showNext();}
+
+function updateStats(){
+  document.getElementById('s-ans').textContent=answered;
+  document.getElementById('s-cor').textContent=correct;
+  document.getElementById('s-pct').textContent=answered>0?Math.round(correct/answered*100)+'%':'—';
+  document.getElementById('s-bk').textContent=bookmarks.size;
+  document.getElementById('s-rem').textContent=queue.length;
+  const total=answered+queue.length;
+  document.getElementById('prog').style.width=total>0?Math.round(answered/total*100)+'%':'0%';
+}
+
+function showNext(){
+  did_answer=false;
+  document.getElementById('btn-row').style.display='none';
+  document.getElementById('banner').style.display='none';
+  if(queue.length===0){showFinal();return;}
+  cur=queue.shift();
+  const idx=Q.indexOf(cur)+1;
+  const L=['A','B','C','D'];
+  const isBk=bookmarks.has(idx-1);
+  document.getElementById('q-cont').innerHTML=`
+    <div class="q-card">
+      <div class="q-meta">
+        <span class="q-topic">${cur.t}</span>
+        <button class="bkbtn${isBk?' saved':''}" id="bkbtn" onclick="toggleBookmark(${idx-1})">${isBk?'&#9733; Bookmarked':'&#9734; Bookmark'}</button>
+        <span class="q-num">Q${idx} of ${Q.length}</span>
+      </div>
+      <div class="q-text">${cur.q}</div>
+      <div class="opts" id="opts">
+        ${cur.o.map((o,i)=>`<button class="opt" id="opt${i}" onclick="selectOpt(${i})"><span class="ol">${L[i]}</span><span>${o}</span></button>`).join('')}
+      </div>
+      <div class="expl" id="expl">${cur.e}</div>
+    </div>`;
+}
+
+function selectOpt(i){
+  if(did_answer)return;
+  did_answer=true;answered++;
+  const ok=i===cur.a;
+  if(ok)correct++;
+  if(topicStats[cur.t]){topicStats[cur.t].ans++;if(ok)topicStats[cur.t].cor++;}
+  document.querySelectorAll('.opt').forEach(o=>o.classList.add('dis'));
+  document.getElementById('opt'+i).classList.add(ok?'correct':'wrong');
+  if(!ok)document.getElementById('opt'+cur.a).classList.add('show-c');
+  document.getElementById('expl').classList.add('show');
+  document.getElementById('btn-row').style.display='flex';
+  updateStats();
+}
+
+function toggleBookmark(idx){
+  if(bookmarks.has(idx))bookmarks.delete(idx);else bookmarks.add(idx);
+  const btn=document.getElementById('bkbtn');
+  if(btn){btn.textContent=bookmarks.has(idx)?'\u2605 Bookmarked':'\u2606 Bookmark';btn.className='bkbtn'+(bookmarks.has(idx)?' saved':'');}
+  document.getElementById('s-bk').textContent=bookmarks.size;
+}
+
+function showFinal(){
+  const pct=Math.round(correct/answered*100);
+  const pass=pct>=72;
+  const b=document.getElementById('banner');
+  b.className='banner '+(pass?'pass':'fail');
+  document.getElementById('b-score').textContent=pct+'% — '+(pass?'Passing':'Below passing');
+  document.getElementById('b-msg').textContent=pass?`${correct}/${answered} correct. Exam threshold is 72% (92/130 questions).`:`${correct}/${answered} correct. Check the Weak Areas tab to see where to focus.`;
+  b.style.display='block';
+  document.getElementById('q-cont').innerHTML='';
+  document.getElementById('btn-row').style.display='flex';
+  document.getElementById('btn-next').style.display='none';
+}
+
+function renderWeak(){
+  document.getElementById('weak-body').innerHTML=TOPICS.slice(1).map(t=>{
+    const s=topicStats[t];
+    const pct=s.ans>0?Math.round(s.cor/s.ans*100):null;
+    const color=pct===null?'#aaa':(pct>=72?'#3B6D11':'#A32D2D');
+    const bar=pct!==null?`<div class="bar-wrap"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div>`:'<span style="font-size:12px;color:#aaa">Not started</span>';
+    return`<tr><td>${t}</td><td style="color:${color};font-weight:500">${pct!==null?pct+'%':'—'}</td><td style="color:#666">${s.ans>0?s.cor+'/'+s.ans:'—'}</td><td>${bar}</td></tr>`;
+  }).join('');
+}
+
+function getFCList(){return fcTopic==='All'?[...FC]:FC.filter(f=>f.topic===fcTopic);}
+
+function renderFlash(){
+  const ftabs=['All','Investment Vehicles','Portfolio Management','Laws & Regulations'];
+  document.getElementById('fc-tabs').innerHTML=ftabs.map(t=>`<button class="tab${t===fcTopic?' active':''}" onclick="setFCTopic('${t}')">${t}</button>`).join('');
+  const cards=getFCList();
+  if(fcIdx>=cards.length)fcIdx=0;
+  fcFlipped=false;
+  const c=cards[fcIdx];
+  document.getElementById('fc-count').textContent=`Card ${fcIdx+1} of ${cards.length} — ${c.topic}`;
+  document.getElementById('fc-label').textContent='Click card to reveal definition';
+  document.getElementById('fc-front').textContent=c.term;
+  document.getElementById('fc-front').style.display='block';
+  document.getElementById('fc-back').textContent=c.def;
+  document.getElementById('fc-back').style.display='none';
+}
+
+function setFCTopic(t){fcTopic=t;fcIdx=0;renderFlash();}
+
+function flipCard(){
+  fcFlipped=!fcFlipped;
+  document.getElementById('fc-front').style.display=fcFlipped?'none':'block';
+  document.getElementById('fc-back').style.display=fcFlipped?'block':'none';
+  document.getElementById('fc-label').textContent=fcFlipped?'Definition — click to see term again':'Click card to reveal definition';
+}
+
+function fcNav(d){const cards=getFCList();fcIdx=(fcIdx+d+cards.length)%cards.length;renderFlash();}
+
+function renderBook(){
+  const el=document.getElementById('book-content');
+  if(bookmarks.size===0){el.innerHTML='<div class="empty-msg">No bookmarked questions yet. Click the bookmark button while answering to save hard questions for review.</div>';return;}
+  const L=['A','B','C','D'];
+  el.innerHTML=`<p class="section-title">${bookmarks.size} bookmarked question${bookmarks.size!==1?'s':''} — answers shown</p>`+
+  [...bookmarks].sort((a,b)=>a-b).map(i=>{
+    const q=Q[i];
+    return`<div class="q-card" style="margin-bottom:10px">
+      <div class="q-meta"><span class="q-topic">${q.t}</span><button class="bkbtn saved" onclick="removeBookmark(${i})">Remove</button><span class="q-num">Q${i+1}</span></div>
+      <div class="q-text">${q.q}</div>
+      <div class="opts">${q.o.map((o,j)=>`<div class="opt dis${j===q.a?' show-c':''}" style="cursor:default"><span class="ol">${L[j]}</span><span>${o}</span></div>`).join('')}</div>
+      <div class="expl show">${q.e}</div>
+    </div>`;
+  }).join('');
+}
+
+function removeBookmark(i){bookmarks.delete(i);renderBook();document.getElementById('s-bk').textContent=bookmarks.size;}
+
+document.getElementById('btn-next').onclick=showNext;
+document.getElementById('btn-reset').onclick=()=>setTopicQ(topic);
+
+renderTabs();queue=getQueue();updateStats();showNext();
+</script>
+</body>
+</html>
